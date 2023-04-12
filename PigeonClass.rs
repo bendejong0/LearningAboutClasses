@@ -40,8 +40,10 @@ trait PigeonMovement{
     }
 }
 
-//getting the error that Pigeon(f32) is "not a trait".
-//I will have to look into this when i can.
+//getting the error that Pigeon(f32) is "not a trait". (OLD)
+//I will have to look into this when i can. (OLD)
+
+//figured out what that means. unsure how to fix, reading about `impl` vs `trait` right now.
 
 fn main() -> Box<dyn PigeonMovement>{
     let mut worky: bool = true;
