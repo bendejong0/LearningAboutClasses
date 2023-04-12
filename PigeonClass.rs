@@ -1,21 +1,20 @@
-// today i will build a class in rust. my girlfriend has a pigeon, and we both really like her,
+// today i will build a class. my girlfriend has a pigeon, and we both really like her,
 // so im making a pigeon class.
 
 use std::io;
 //allows inputs
 
 struct Pigeon{
-    //Variables that will be important to our walking functions.
     currentSpeed: f32,
     isWalking: bool,
 }
 
-impl Pigeon{
+trait PigeonMovement{
     //calculates how quickly the pigeon can speed up
     fn acceleration(&mut self) -> i32{
         
-        let changeInSpeed: f32 = 1.2; //just made up 1.2.
-        self.currentSpeed=self.changeInSpeed*self.currentSpeed+0.5; //giving it a value of .5 assumes that when IS moving it's going at least 0.5 mph
+        let changeInSpeed: f32 = 1.2;
+        self.currentSpeed=changeInSpeed*self.currentSpeed+0.5;      //giving it a value of .5 assumes that when IS moving it's going at least 0.5 mph
                                                                     //we have to do this or else it'll just mutiply changeInSpeed by 0 over and over;
         return self.currentSpeed;
     }
@@ -23,13 +22,14 @@ impl Pigeon{
     //calculates how quickly the pigeon can slow down
     fn deacceleration(&mut self) ->f32{
         
+        let pchangeInSpeed: *mut i32 = &mut self.changeInSpeed; //just made it a pointer for the sake of removing some '.self's
         let changeInSpeed: f32 = 0.2;      //the pigeon stops much faster than it accelerates
-        self.currentSpeed=changeInSpeed*self.currentSpeed;
+        pchangeInSpeed=changeInSpeed*pchangeInSpeed;
 
-        if self.currentSpeed <= 0.1{       //if the pigeon is moving this slowly,
-            self.currentSpeed = 0;         //is it even moving at all?
+        if pchangeInSpeed <= 0.1{       //if the pigeon is moving this slowly,
+            pchangeInSpeed = 0;         //is it even moving at all?
         }
-        return self.currentSpeed
+        return pchangeInSpeed
     }
 
     fn walking(&mut self)->i32{
@@ -43,7 +43,7 @@ impl Pigeon{
 //getting the error that Pigeon(f32) is "not a trait".
 //I will have to look into this when i can.
 
-fn main() -> impl Pigeon(f32) -> i32{
+fn main() -> Box<dyn PigeonMovement>{
     let mut worky: bool = true;
     let mut str = String::new();
     let mut speed = String::new();
